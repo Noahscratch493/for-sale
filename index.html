@@ -17,9 +17,7 @@
       --border: #e5e8e5;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -34,9 +32,7 @@
       margin: auto;
     }
 
-    .top {
-      margin-bottom: 32px;
-    }
+    .top { margin-bottom: 32px; }
 
     .brand {
       display: inline-flex;
@@ -151,9 +147,7 @@
       white-space: nowrap;
     }
 
-    .copy:hover {
-      background: #333;
-    }
+    .copy:hover { background: #333; }
 
     .open-tab {
       background: var(--accent);
@@ -180,7 +174,7 @@
       display: flex;
       align-items: center;
       gap: 11px;
-      margin-top: 22px;
+      margin-top: 14px;
       padding: 14px;
       background: #f7faf7;
       border: 1px solid var(--border);
@@ -222,9 +216,7 @@
       margin-bottom: 16px;
     }
 
-    .preview-heading h2 {
-      margin: 0;
-    }
+    .preview-heading h2 { margin: 0; }
 
     .live {
       display: flex;
@@ -266,9 +258,7 @@
       text-decoration: none;
     }
 
-    .archive:hover {
-      text-decoration: underline;
-    }
+    .archive:hover { text-decoration: underline; }
 
     .disclaimer {
       margin-top: 26px;
@@ -281,9 +271,7 @@
       line-height: 1.7;
     }
 
-    .disclaimer strong {
-      color: #333;
-    }
+    .disclaimer strong { color: #333; }
 
     footer {
       text-align: center;
@@ -293,32 +281,15 @@
     }
 
     @media (max-width: 850px) {
-      body {
-        padding: 25px 16px;
-      }
-
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      iframe {
-        height: 480px;
-      }
+      body { padding: 25px 16px; }
+      .layout { grid-template-columns: 1fr; }
+      iframe { height: 480px; }
     }
 
     @media (max-width: 480px) {
-      .link-row {
-        flex-direction: column;
-      }
-
-      .copy,
-      .open-tab {
-        width: 100%;
-      }
-
-      .panel {
-        padding: 20px;
-      }
+      .link-row { flex-direction: column; }
+      .copy, .open-tab { width: 100%; }
+      .panel { padding: 20px; }
     }
   </style>
 </head>
@@ -367,15 +338,21 @@
       >
 
       <label class="checkbox-option" for="hideCookies">
-        <input
-          type="checkbox"
-          id="hideCookies"
-          checked
-        >
+        <input type="checkbox" id="hideCookies" checked>
         <span class="checkbox-text">
           <span class="checkbox-title">Hide Cookies</span>
           <span class="checkbox-description">
             Hide the privacy and cookie banner on the generated page.
+          </span>
+        </span>
+      </label>
+
+      <label class="checkbox-option" for="autoGenerate">
+        <input type="checkbox" id="autoGenerate">
+        <span class="checkbox-text">
+          <span class="checkbox-title">Automatically Generate</span>
+          <span class="checkbox-description">
+            Automatically update the preview after you stop typing for 1 second.
           </span>
         </span>
       </label>
@@ -418,10 +395,7 @@
       </div>
 
       <div class="iframe-container">
-        <iframe
-          id="preview"
-          title="For sale page preview"
-        ></iframe>
+        <iframe id="preview" title="For sale page preview"></iframe>
       </div>
 
       <a
@@ -443,9 +417,7 @@
     GoDaddy is a trademark of its respective owner.
   </div>
 
-  <footer>
-    For Sale Page Generator
-  </footer>
+  <footer>For Sale Page Generator</footer>
 
 </div>
 
@@ -453,15 +425,36 @@
   const baseURL =
     "https://noahscratch493.github.io/for-sale/generated.html";
 
+  const autoGenerateCheckbox =
+    document.getElementById("autoGenerate");
+
+  const hideCookiesCheckbox =
+    document.getElementById("hideCookies");
+
+  const domainInput =
+    document.getElementById("domain");
+
+  const descriptionInput =
+    document.getElementById("description");
+
+  let generateTimer = null;
+
+  // Load saved auto-generate preference.
+  // Defaults to ON if no preference has been saved.
+  const savedAutoGenerate =
+    localStorage.getItem("autoGenerate");
+
+  autoGenerateCheckbox.checked =
+    savedAutoGenerate === null
+      ? true
+      : savedAutoGenerate === "true";
+
   function generate() {
-    const domain =
-      document.getElementById("domain").value;
+    clearTimeout(generateTimer);
 
-    const description =
-      document.getElementById("description").value;
-
-    const hideCookies =
-      document.getElementById("hideCookies").checked;
+    const domain = domainInput.value;
+    const description = descriptionInput.value;
+    const hideCookies = hideCookiesCheckbox.checked;
 
     const url = new URL(baseURL);
 
@@ -480,6 +473,38 @@
     document.getElementById("preview").src =
       generatedURL;
   }
+
+  // Debounced automatic generation
+  function scheduleGenerate() {
+    if (!autoGenerateCheckbox.checked) return;
+
+    clearTimeout(generateTimer);
+
+    generateTimer = setTimeout(() => {
+      generate();
+    }, 1000);
+  }
+
+  // Save preference whenever changed
+  autoGenerateCheckbox.addEventListener("change", () => {
+    localStorage.setItem(
+      "autoGenerate",
+      autoGenerateCheckbox.checked
+    );
+
+    if (autoGenerateCheckbox.checked) {
+      scheduleGenerate();
+    } else {
+      clearTimeout(generateTimer);
+    }
+  });
+
+  // Domain and description changes
+  domainInput.addEventListener("input", scheduleGenerate);
+  descriptionInput.addEventListener("input", scheduleGenerate);
+
+  // Hide Cookies changes
+  hideCookiesCheckbox.addEventListener("change", scheduleGenerate);
 
   async function copyLink() {
     const link =
@@ -519,23 +544,7 @@
     window.open(link, "_blank", "noopener,noreferrer");
   }
 
-  // Automatically regenerate when Hide Cookies changes
-  document.getElementById("hideCookies").addEventListener(
-    "change",
-    generate
-  );
-
-  // Automatically update preview when text changes
-  document.getElementById("domain").addEventListener(
-    "input",
-    generate
-  );
-
-  document.getElementById("description").addEventListener(
-    "input",
-    generate
-  );
-
+  // Initial generation
   generate();
 </script>
 
