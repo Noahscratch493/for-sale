@@ -16,29 +16,23 @@
     headerElement.textContent = desc;
   }
 
-  // Only remove cookies when ?hidecookies is present.
-  if (!params.has("hidecookies")) return;
+  // Update call text.
+  const callText = params.get("calltext");
 
-  function removeCookies() {
-    document.querySelectorAll("#privacy_widget").forEach(widget => {
-      widget.remove();
-    });
+  if (callText !== null) {
+    const callTextElement = document.querySelector("h5.m-4");
 
-    document.querySelectorAll('[aria-label="privacyAlert"]').forEach(alert => {
-      alert.remove();
-    });
+    if (callTextElement) {
+      callTextElement.textContent = callText;
+    }
   }
 
-  // Remove immediately.
-  removeCookies();
-
-  // Keep watching for GoDaddy injecting the banner again.
-  const observer = new MutationObserver(() => {
-    removeCookies();
-  });
-
-  observer.observe(document.documentElement, {
-    childList: true,
-    subtree: true
-  });
+  // Show or hide phone numbers.
+  if (!params.has("showPhone")) {
+    document.querySelectorAll(
+      '[data-testid="phone-number-group"]'
+    ).forEach(group => {
+      group.remove();
+    });
+  }
 })();
