@@ -1,499 +1,611 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Sale Page Generator</title>
-    <link rel="icon" type="image/x-icon" href="https://img6.wsimg.com/ux-assets/favicon/favicon-32x32.png">
-    <style>
-      :root {
-        --accent: #59C6CC;
-        --accent-hover: #43AEB5;
-        --background: #f5f6f5;
-        --surface: #ffffff;
-        --text: #171717;
-        --muted: #707570;
-        --border: #e5e8e5;
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Sale Page Generator</title>
+  <link rel="icon" type="image/x-icon" href="https://img6.wsimg.com/ux-assets/favicon/favicon-32x32.png">
 
-      * {
-        box-sizing: border-box;
-      }
+  <style>
+    :root {
+      --accent: #59C6CC;
+      --accent-hover: #43AEB5;
+      --background: #f5f6f5;
+      --surface: #ffffff;
+      --text: #171717;
+      --muted: #707570;
+      --border: #e5e8e5;
+    }
 
-      body {
-        margin: 0;
-        padding: 40px 24px;
-        font-family: Arial, Helvetica, sans-serif;
-        background: var(--background);
-        color: var(--text);
-      }
+    * { box-sizing: border-box; }
 
-      .page {
-        max-width: 1250px;
-        margin: auto;
-      }
+    body {
+      margin: 0;
+      padding: 40px 24px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
 
-      .top {
-        margin-bottom: 32px;
-      }
+    .page {
+      max-width: 1250px;
+      margin: auto;
+    }
 
-      .brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-        font-size: 14px;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        margin-bottom: 24px;
-      }
+    .top { margin-bottom: 32px; }
 
-      .brand-icon {
-        width: 12px;
-        height: 12px;
-        background: var(--accent);
-        border-radius: 50%;
-      }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+    }
 
-      h1 {
-        font-size: clamp(30px, 5vw, 46px);
-        letter-spacing: -2px;
-        margin: 0 0 10px;
-      }
+    .brand-icon {
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
 
-      .subtitle {
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.6;
-        margin: 0;
-      }
+    h1 {
+      font-size: clamp(30px, 5vw, 46px);
+      letter-spacing: -2px;
+      margin: 0 0 10px;
+    }
 
-      .layout {
-        display: grid;
-        grid-template-columns: 380px 1fr;
-        gap: 24px;
-        align-items: start;
-      }
+    .subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+    }
 
-      .panel {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 26px;
-        box-shadow: 0 4px 18px #00000006;
-      }
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
 
-      .panel h2 {
-        font-size: 19px;
-        margin: 0 0 8px;
-        letter-spacing: -0.5px;
-      }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      box-shadow: 0 4px 18px #00000006;
+    }
 
-      .panel-description {
-        color: var(--muted);
-        font-size: 13px;
-        line-height: 1.5;
-        margin: 0 0 25px;
-      }
+    .panel h2 {
+      font-size: 19px;
+      margin: 0 0 8px;
+      letter-spacing: -0.5px;
+    }
 
-      .section-heading {
-        font-size: 14px;
-        font-weight: 800;
-        margin: 28px 0 5px;
-        letter-spacing: -0.2px;
-      }
+    .panel-description {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 0 0 25px;
+    }
 
-      .section-description {
-        font-size: 11px;
-        color: var(--muted);
-        margin: 0 0 15px;
-        line-height: 1.5;
-      }
+    .section-heading {
+      font-size: 14px;
+      font-weight: 800;
+      margin: 28px 0 5px;
+      letter-spacing: -0.2px;
+    }
 
-      .section-divider {
-        border: 0;
-        border-top: 1px solid var(--border);
-        margin: 25px 0;
-      }
+    .section-description {
+      font-size: 11px;
+      color: var(--muted);
+      margin: 0 0 15px;
+      line-height: 1.5;
+    }
 
-      label {
-        display: block;
-        font-size: 13px;
-        font-weight: 700;
-        margin: 20px 0 9px;
-      }
+    .section-divider {
+      border: 0;
+      border-top: 1px solid var(--border);
+      margin: 25px 0;
+    }
 
-      input:not([type="checkbox"]) {
-        width: 100%;
-        height: 47px;
-        padding: 0 14px;
-        border: 1px solid #d9ded9;
-        border-radius: 8px;
-        font-size: 15px;
-        outline: none;
-        transition: border 0.2s, box-shadow 0.2s;
-        background: white;
-        color: var(--text);
-      }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 20px 0 9px;
+    }
 
-      input:not([type="checkbox"]):focus {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 3px #59C6CC25;
-      }
+    input:not([type="checkbox"]) {
+      width: 100%;
+      height: 47px;
+      padding: 0 14px;
+      border: 1px solid #d9ded9;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+      background: white;
+      color: var(--text);
+    }
 
-      button {
-        min-height: 47px;
-        padding: 0 19px;
-        border: none;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.2s;
-      }
+    input:not([type="checkbox"]):focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px #59C6CC25;
+    }
 
-      .generate {
-        width: 100%;
-        background: var(--accent);
-        color: #102c2e;
-        margin-top: 27px;
-      }
+    button {
+      min-height: 47px;
+      padding: 0 19px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-      .generate:hover {
-        background: var(--accent-hover);
-        transform: translateY(-1px);
-        color: white;
-      }
+    .generate {
+      width: 100%;
+      background: var(--accent);
+      color: #102c2e;
+      margin-top: 27px;
+    }
 
-      .copy {
-        background: #171717;
-        color: white;
-        white-space: nowrap;
-      }
+    .generate:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      color: white;
+    }
 
-      .copy:hover {
-        background: #333;
-      }
+    .copy {
+      background: #171717;
+      color: white;
+      white-space: nowrap;
+    }
 
-      .open-tab {
-        background: var(--accent);
-        color: #102c2e;
-        white-space: nowrap;
-      }
+    .copy:hover { background: #333; }
 
-      .open-tab:hover {
-        background: var(--accent-hover);
-        color: white;
-      }
+    .open-tab {
+      background: var(--accent);
+      color: #102c2e;
+      white-space: nowrap;
+    }
 
-      .link-row {
-        display: flex;
-        gap: 9px;
-      }
+    .open-tab:hover {
+      background: var(--accent-hover);
+      color: white;
+    }
 
-      .link-row input {
-        min-width: 0;
-        font-size: 12px;
-      }
+    .link-row {
+      display: flex;
+      gap: 9px;
+    }
 
-      .checkbox-option {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        margin-top: 14px;
-        padding: 14px;
-        background: #f7faf7;
-        border: 1px solid var(--border);
-        border-radius: 9px;
-        cursor: pointer;
-      }
+    .link-row input {
+      min-width: 0;
+      font-size: 12px;
+    }
 
-      .checkbox-option input {
-        width: 18px;
-        height: 18px;
-        margin: 0;
-        accent-color: var(--accent);
-        cursor: pointer;
-        flex-shrink: 0;
-      }
+    .checkbox-option {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-top: 14px;
+      padding: 14px;
+      background: #f7faf7;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      cursor: pointer;
+    }
 
-      .checkbox-text {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
+    .checkbox-option input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
 
-      .checkbox-title {
-        font-size: 13px;
-        font-weight: 700;
-      }
+    .checkbox-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
 
-      .checkbox-description {
-        font-size: 11px;
-        color: var(--muted);
-        font-weight: normal;
-      }
+    .checkbox-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
 
-      .preview-heading {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 16px;
-      }
+    .checkbox-description {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: normal;
+    }
 
-      .preview-heading h2 {
-        margin: 0;
-      }
+    .preview-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
 
-      .live {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        color: var(--muted);
-        font-weight: 700;
-      }
+    .preview-heading h2 { margin: 0; }
 
-      .live img {
-        width: 20px;
-        height: 20px;
-        object-fit: contain;
-        border-radius: 4px;
-      }
+    .live {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
 
-      .iframe-container {
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        overflow: hidden;
-        background: #f7f7f7;
-      }
+    .live img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
 
-      iframe {
-        display: block;
-        width: 100%;
-        height: 530px;
-        border: none;
-        background: white;
-      }
+    .iframe-container {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f7f7f7;
+    }
 
-      .archive {
-        display: inline-block;
-        margin-top: 18px;
-        color: #168a42;
-        font-size: 13px;
-        font-weight: 700;
-        text-decoration: none;
-      }
+    iframe {
+      display: block;
+      width: 100%;
+      height: 530px;
+      border: none;
+      background: white;
+    }
 
-      .archive:hover {
-        text-decoration: underline;
-      }
+    .archive {
+      display: inline-block;
+      margin-top: 18px;
+      color: #168a42;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
 
-      .disclaimer {
-        margin-top: 26px;
-        padding: 17px 20px;
-        background: #ffffff;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        color: #666;
-        font-size: 12px;
-        line-height: 1.7;
-      }
+    .archive:hover { text-decoration: underline; }
 
-      .disclaimer strong {
-        color: #333;
-      }
+    .disclaimer {
+      margin-top: 26px;
+      padding: 17px 20px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: #666;
+      font-size: 12px;
+      line-height: 1.7;
+    }
 
-      footer {
-        text-align: center;
-        margin-top: 28px;
-        color: #999;
-        font-size: 12px;
-      }
+    .disclaimer strong { color: #333; }
 
-      @media (max-width: 850px) {
-        body {
-          padding: 25px 16px;
-        }
+    footer {
+      text-align: center;
+      margin-top: 28px;
+      color: #999;
+      font-size: 12px;
+    }
 
-        .layout {
-          grid-template-columns: 1fr;
-        }
+    @media (max-width: 850px) {
+      body { padding: 25px 16px; }
+      .layout { grid-template-columns: 1fr; }
+      iframe { height: 480px; }
+    }
 
-        iframe {
-          height: 480px;
-        }
-      }
+    @media (max-width: 480px) {
+      .link-row { flex-direction: column; }
+      .copy, .open-tab { width: 100%; }
+      .panel { padding: 20px; }
+    }
+  </style>
+</head>
 
-      @media (max-width: 480px) {
-        .link-row {
-          flex-direction: column;
-        }
+<body>
 
-        .copy,
-        .open-tab {
-          width: 100%;
-        }
+<div class="page">
 
-        .panel {
-          padding: 20px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page">
-      <header class="top">
-        <div class="brand">
-          <span class="brand-icon"></span> FOR SALE GENERATOR
-        </div>
-        <h1>Make your own for sale page.</h1>
-        <p class="subtitle"> Customize a GoDaddy-style domain for sale page and generate a shareable link instantly. </p>
-      </header>
-      <main class="layout">
-        <section class="panel">
-          <h2>Customize your page</h2>
-          <p class="panel-description"> Enter your own domain name and description below. </p>
-          <!-- GENERAL -->
-          <div class="section-heading">General</div>
-          <p class="section-description"> Basic information displayed on your generated page. </p>
-          <label for="domain">Domain / Title</label>
-          <input id="domain" type="text" value="google.com" placeholder="google.com">
-          <label for="description">Description</label>
-          <input id="description" type="text" value="may be for sale." placeholder="Enter a description...">
-          <hr class="section-divider">
-          <!-- SHOPPING -->
-          <div class="section-heading">Shopping</div>
-          <p class="section-description"> Customize domain purchase and contact options. </p>
-          <label for="callText">Call Text</label>
-          <input id="callText" type="text" value="Want to find if this domain is for sale? Give us a call." placeholder="Enter your call text...">
-          <label class="checkbox-option" for="showPhone">
-            <input type="checkbox" id="showPhone" checked>
-            <span class="checkbox-text">
-              <span class="checkbox-title">Phone Numbers</span>
-              <span class="checkbox-description"> Display phone numbers on the generated page. </span>
-            </span>
-          </label>
-          <hr class="section-divider">
-          <!-- CONFIGURATION -->
-          <div class="section-heading">Configuration</div>
-          <p class="section-description"> Adjust how the generator behaves. </p>
-          <label class="checkbox-option" for="autoGenerate">
-            <input type="checkbox" id="autoGenerate">
-            <span class="checkbox-text">
-              <span class="checkbox-title">Automatically Generate</span>
-              <span class="checkbox-description"> Automatically update the preview after you stop typing for 1 second. </span>
-            </span>
-          </label>
-          <button class="generate" onclick="generate()"> Generate page → </button>
-          <label for="generatedLink">Your generated link</label>
-          <div class="link-row">
-            <input id="generatedLink" type="text" readonly placeholder="Generate your page first...">
-            <button class="copy" onclick="copyLink()"> Copy link </button>
-            <button class="open-tab" onclick="openInNewTab()"> Open ↗ </button>
-          </div>
-        </section>
-        <section class="panel">
-          <div class="preview-heading">
-            <h2>Live preview</h2>
-            <span class="live">
-              <img src="https://img6.wsimg.com/ux-assets/favicon/favicon-32x32.png" alt="GoDaddy favicon"> PREVIEW </span>
-          </div>
-          <div class="iframe-container">
-            <iframe id="preview" title="For sale page preview"></iframe>
-          </div>
-          <a class="archive" href="https://web.archive.org/web/20250801002053/https://www.godaddy.com/forsale/godaddy.com" target="_blank" rel="noopener noreferrer"> View original Internet Archive capture ↗ </a>
-        </section>
-      </main>
-      <div class="disclaimer">
-        <strong>Disclaimer:</strong> This is an unofficial fan-made project and is not affiliated with, endorsed by, or sponsored by GoDaddy or any other company. GoDaddy is a trademark of its respective owner.
-      </div>
-      <footer>For Sale Page Generator</footer>
+  <header class="top">
+    <div class="brand">
+      <span class="brand-icon"></span>
+      FOR SALE GENERATOR
     </div>
-    <script>
-      const baseURL = "https://noahscratch493.github.io/for-sale/generated.html";
-      const autoGenerateCheckbox = document.getElementById("autoGenerate");
-      const callTextCheckbox = document.getElementById("callText");
-      const showPhoneCheckbox = document.getElementById("showPhone");
-      const domainInput = document.getElementById("domain");
-      const descriptionInput = document.getElementById("description");
-      let generateTimer = null;
-      // Load saved auto-generate preference.
-      // Defaults to ON if no preference has been saved.
-      const savedAutoGenerate = localStorage.getItem("autoGenerate");
-      autoGenerateCheckbox.checked = savedAutoGenerate === null ? true : savedAutoGenerate === "true";
 
-      function generate() {
-        clearTimeout(generateTimer);
-        const domain = domainInput.value;
-        const description = descriptionInput.value;
-        const url = new URL(baseURL);
-        url.searchParams.set("domain", domain);
-        url.searchParams.set("desc", description);
-        // Shopping options
-        if (callTextCheckbox.checked) {
-          url.searchParams.set("calltext", "");
-        }
-        if (showPhoneCheckbox.checked) {
-          url.searchParams.set("showPhone", "");
-        }
-        const generatedURL = url.toString();
-        document.getElementById("generatedLink").value = generatedURL;
-        document.getElementById("preview").src = generatedURL;
-      }
-      // Debounced automatic generation
-      function scheduleGenerate() {
-        if (!autoGenerateCheckbox.checked) return;
-        clearTimeout(generateTimer);
-        generateTimer = setTimeout(() => {
-          generate();
-        }, 1000);
-      }
-      // Save preference whenever changed
-      autoGenerateCheckbox.addEventListener("change", () => {
-        localStorage.setItem("autoGenerate", autoGenerateCheckbox.checked);
-        if (autoGenerateCheckbox.checked) {
-          scheduleGenerate();
-        } else {
-          clearTimeout(generateTimer);
-        }
-      });
-      // General changes
-      domainInput.addEventListener("input", scheduleGenerate);
-      descriptionInput.addEventListener("input", scheduleGenerate);
-      // Shopping changes
-      callTextCheckbox.addEventListener("change", scheduleGenerate);
-      showPhoneCheckbox.addEventListener("change", scheduleGenerate);
-      async function copyLink() {
-        const link = document.getElementById("generatedLink").value;
-        if (!link) {
-          alert("Generate a page first!");
-          return;
-        }
-        try {
-          await navigator.clipboard.writeText(link);
-          const button = document.querySelector(".copy");
-          button.textContent = "Copied! ✓";
-          setTimeout(() => {
-            button.textContent = "Copy link";
-          }, 2000);
-        } catch (error) {
-          const input = document.getElementById("generatedLink");
-          input.select();
-          document.execCommand("copy");
-        }
-      }
+    <h1>Make your own for sale page.</h1>
 
-      function openInNewTab() {
-        const link = document.getElementById("generatedLink").value;
-        if (!link) {
-          alert("Generate a page first!");
-          return;
-        }
-        window.open(link, "_blank", "noopener,noreferrer");
-      }
-      // Initial generation
+    <p class="subtitle">
+      Customize a GoDaddy-style domain for sale page and generate
+      a shareable link instantly.
+    </p>
+  </header>
+
+  <main class="layout">
+
+    <section class="panel">
+      <h2>Customize your page</h2>
+
+      <p class="panel-description">
+        Enter your own domain name and description below.
+      </p>
+
+      <!-- GENERAL -->
+      <div class="section-heading">General</div>
+      <p class="section-description">
+        Basic information displayed on your generated page.
+      </p>
+
+      <label for="domain">Domain / Title</label>
+      <input
+        id="domain"
+        type="text"
+        value="google.com"
+        placeholder="google.com"
+      >
+
+      <label for="description">Description</label>
+      <input
+        id="description"
+        type="text"
+        value="may be for sale."
+        placeholder="Enter a description..."
+      >
+
+      <hr class="section-divider">
+
+      <!-- SHOPPING -->
+      <div class="section-heading">Shopping</div>
+      <p class="section-description">
+        Customize domain purchase and contact options.
+      </p>
+
+      <label for="callText">Call Text</label>
+      <input
+        id="callText"
+        type="text"
+        value="Want to find if this domain is for sale? Give us a call."
+        placeholder="Enter your call text..."
+      >
+
+      <label class="checkbox-option" for="showPhone">
+        <input type="checkbox" id="showPhone" checked>
+        <span class="checkbox-text">
+          <span class="checkbox-title">Phone Numbers</span>
+          <span class="checkbox-description">
+            Display phone numbers on the generated page.
+          </span>
+        </span>
+      </label>
+
+      <hr class="section-divider">
+
+      <!-- CONFIGURATION -->
+      <div class="section-heading">Configuration</div>
+      <p class="section-description">
+        Adjust how the generator behaves.
+      </p>
+
+      <label class="checkbox-option" for="autoGenerate">
+        <input type="checkbox" id="autoGenerate">
+        <span class="checkbox-text">
+          <span class="checkbox-title">Automatically Generate</span>
+          <span class="checkbox-description">
+            Automatically update the preview after you stop typing for 1 second.
+          </span>
+        </span>
+      </label>
+
+      <button class="generate" onclick="generate()">
+        Generate page →
+      </button>
+
+      <label for="generatedLink">Your generated link</label>
+
+      <div class="link-row">
+        <input
+          id="generatedLink"
+          type="text"
+          readonly
+          placeholder="Generate your page first..."
+        >
+
+        <button class="copy" onclick="copyLink()">
+          Copy link
+        </button>
+
+        <button class="open-tab" onclick="openInNewTab()">
+          Open ↗
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="preview-heading">
+        <h2>Live preview</h2>
+
+        <span class="live">
+          <img
+            src="https://img6.wsimg.com/ux-assets/favicon/favicon-32x32.png"
+            alt="GoDaddy favicon"
+          >
+          PREVIEW
+        </span>
+      </div>
+
+      <div class="iframe-container">
+        <iframe id="preview" title="For sale page preview"></iframe>
+      </div>
+
+      <a
+        class="archive"
+        href="https://web.archive.org/web/20250801002053/https://www.godaddy.com/forsale/godaddy.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View original Internet Archive capture ↗
+      </a>
+    </section>
+
+  </main>
+
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong>
+    This is an unofficial fan-made project and is not affiliated
+    with, endorsed by, or sponsored by GoDaddy or any other company.
+    GoDaddy is a trademark of its respective owner.
+  </div>
+
+  <footer>For Sale Page Generator</footer>
+
+</div>
+
+<script>
+  const baseURL =
+    "https://noahscratch493.github.io/for-sale/generated.html";
+
+  const autoGenerateCheckbox =
+    document.getElementById("autoGenerate");
+
+  const callTextInput =
+    document.getElementById("callText");
+
+  const showPhoneCheckbox =
+    document.getElementById("showPhone");
+
+  const domainInput =
+    document.getElementById("domain");
+
+  const descriptionInput =
+    document.getElementById("description");
+
+  let generateTimer = null;
+
+  // Load saved auto-generate preference.
+  // Defaults to ON if no preference has been saved.
+  const savedAutoGenerate =
+    localStorage.getItem("autoGenerate");
+
+  autoGenerateCheckbox.checked =
+    savedAutoGenerate === null
+      ? true
+      : savedAutoGenerate === "true";
+
+  function generate() {
+    clearTimeout(generateTimer);
+
+    const domain = domainInput.value;
+    const description = descriptionInput.value;
+    const callText = callTextInput.value.trim();
+
+    const url = new URL(baseURL);
+
+    url.searchParams.set("domain", domain);
+    url.searchParams.set("desc", description);
+
+    // Shopping options
+    if (callText) {
+      url.searchParams.set("calltext", callText);
+    }
+
+    if (showPhoneCheckbox.checked) {
+      url.searchParams.set("showPhone", "");
+    }
+
+    const generatedURL = url.toString();
+
+    document.getElementById("generatedLink").value =
+      generatedURL;
+
+    document.getElementById("preview").src =
+      generatedURL;
+  }
+
+  // Debounced automatic generation
+  function scheduleGenerate() {
+    if (!autoGenerateCheckbox.checked) return;
+
+    clearTimeout(generateTimer);
+
+    generateTimer = setTimeout(() => {
       generate();
-    </script>
-  </body>
+    }, 1000);
+  }
+
+  // Save preference whenever changed
+  autoGenerateCheckbox.addEventListener("change", () => {
+    localStorage.setItem(
+      "autoGenerate",
+      autoGenerateCheckbox.checked
+    );
+
+    if (autoGenerateCheckbox.checked) {
+      scheduleGenerate();
+    } else {
+      clearTimeout(generateTimer);
+    }
+  });
+
+  // General changes
+  domainInput.addEventListener("input", scheduleGenerate);
+  descriptionInput.addEventListener("input", scheduleGenerate);
+
+  // Shopping changes
+  callTextInput.addEventListener("input", scheduleGenerate);
+  showPhoneCheckbox.addEventListener("change", scheduleGenerate);
+
+  async function copyLink() {
+    const link =
+      document.getElementById("generatedLink").value;
+
+    if (!link) {
+      alert("Generate a page first!");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(link);
+
+      const button = document.querySelector(".copy");
+      button.textContent = "Copied! ✓";
+
+      setTimeout(() => {
+        button.textContent = "Copy link";
+      }, 2000);
+
+    } catch (error) {
+      const input = document.getElementById("generatedLink");
+      input.select();
+      document.execCommand("copy");
+    }
+  }
+
+  function openInNewTab() {
+    const link =
+      document.getElementById("generatedLink").value;
+
+    if (!link) {
+      alert("Generate a page first!");
+      return;
+    }
+
+    window.open(link, "_blank", "noopener,noreferrer");
+  }
+
+  // Initial generation
+  generate();
+</script>
+
+</body>
 </html>
