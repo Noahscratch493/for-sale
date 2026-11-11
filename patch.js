@@ -27,12 +27,12 @@
     }
   }
 
-  // Show or hide phone numbers.
+  // Remove the entire phone numbers row when disabled.
   if (!params.has("showPhone")) {
-    document.querySelectorAll(
-      '[data-testid="phone-number-group"]'
-    ).forEach(group => {
-      group.remove();
+    document.querySelectorAll(".row.mt-4.mb-4").forEach(row => {
+      if (row.querySelector('[data-testid="phone-number-group"]')) {
+        row.remove();
+      }
     });
   }
 })();
