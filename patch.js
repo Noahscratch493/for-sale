@@ -15,28 +15,59 @@
     if (el) el.textContent = desc;
   }
 
-  // Hide cookie banner
+  // Hide cookie banner by detecting its text
   if (params.has("hidecookies")) {
-    const selector =
-      'div[role="alert"][aria-label="privacyAlert"]';
+    const cookieText =
+      "We serve cookies. We use tools, such as cookies, to enable essential services and functionality on our site";
 
     const hideCookies = () => {
-      document.querySelectorAll(selector).forEach(banner => {
-        banner.style.setProperty("display", "none", "important");
+      // First try the original selector
+      document.querySelectorAll(
+        'div[role="alert"][aria-label="privacyAlert"]'
+      ).forEach(el => {
+        el.style.setProperty("display", "none", "important");
+      });
+
+      // Search for the cookie banner text
+      document.querySelectorAll("body *").forEach(el => {
+        if (
+          el.children.length === 0 &&
+          el.textContent.includes("We serve cookies.")
+        ) {
+          // Find the parent containing the whole banner
+          let parent = el;
+
+          for (let i = 0; i < 6 && parent.parentElement; i++) {
+            parent = parent.parentElement;
+
+            if (
+              parent.textContent.includes("Privacy Policy") &&
+              parent.textContent.includes("Accept") &&
+              parent.textContent.includes("Decline") &&
+              parent.textContent.includes("Manage")
+            ) {
+              parent.style.setProperty(
+                "display",
+                "none",
+                "important"
+              );
+              break;
+            }
+          }
+        }
       });
     };
 
     // Initial check
     hideCookies();
 
-    // Watch for dynamically inserted cookie banners
-    const observer = new MutationObserver(() => {
-      hideCookies();
-    });
+    // Watch for dynamically added or modified content
+    const observer = new MutationObserver(hideCookies);
 
     observer.observe(document.documentElement, {
       childList: true,
       subtree: true,
+      characterData: true,
       attributes: true,
       attributeFilter: ["style", "class"]
     });
