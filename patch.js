@@ -1,4 +1,3 @@
-
 (() => {
   const params = new URLSearchParams(window.location.search);
 
@@ -17,23 +16,26 @@
     headerElement.textContent = desc;
   }
 
-  // Only hide cookies when ?hidecookies is present.
+  // Only remove cookies when ?hidecookies is present.
   if (!params.has("hidecookies")) return;
 
-  function hideCookies() {
-    const widget = document.getElementById("privacy_widget");
+  function removeCookies() {
+    document.querySelectorAll("#privacy_widget").forEach(widget => {
+      widget.remove();
+    });
 
-    if (widget && !widget.hidden) {
-      widget.hidden = true;
-      widget.style.setProperty("display", "none", "important");
-    }
+    document.querySelectorAll('[aria-label="privacyAlert"]').forEach(alert => {
+      alert.remove();
+    });
   }
 
-  // Try immediately.
-  hideCookies();
+  // Remove immediately.
+  removeCookies();
 
-  // Also catch the widget if GoDaddy adds it later.
-  const observer = new MutationObserver(hideCookies);
+  // Keep watching for GoDaddy injecting the banner again.
+  const observer = new MutationObserver(() => {
+    removeCookies();
+  });
 
   observer.observe(document.documentElement, {
     childList: true,
