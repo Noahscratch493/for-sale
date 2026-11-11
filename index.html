@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Sale Page Generator</title>
+
+  <style>
+    :root {
+      --accent: #00a63f;
+      --accent-hover: #008f36;
+      --background: #f5f6f5;
+      --surface: #ffffff;
+      --text: #171717;
+      --muted: #707570;
+      --border: #e5e8e5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px 24px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1250px;
+      margin: auto;
+    }
+
+    .top {
+      margin-bottom: 32px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+    }
+
+    .brand-icon {
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 46px);
+      letter-spacing: -2px;
+      margin: 0 0 10px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      box-shadow: 0 4px 18px #00000006;
+    }
+
+    .panel h2 {
+      font-size: 19px;
+      margin: 0 0 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .panel-description {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 0 0 25px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 20px 0 9px;
+    }
+
+    input {
+      width: 100%;
+      height: 47px;
+      padding: 0 14px;
+      border: 1px solid #d9ded9;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+      background: white;
+      color: var(--text);
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px #00a63f18;
+    }
+
+    button {
+      height: 47px;
+      padding: 0 19px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .generate {
+      width: 100%;
+      background: var(--accent);
+      color: white;
+      margin-top: 27px;
+    }
+
+    .generate:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .copy {
+      background: #171717;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .copy:hover {
+      background: #333;
+    }
+
+    .link-row {
+      display: flex;
+      gap: 9px;
+    }
+
+    .link-row input {
+      min-width: 0;
+      font-size: 12px;
+    }
+
+    .preview-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .preview-heading h2 {
+      margin: 0;
+    }
+
+    .live {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: #078c39;
+      font-weight: 700;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .iframe-container {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f7f7f7;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 530px;
+      border: none;
+      background: white;
+    }
+
+    .archive {
+      display: inline-block;
+      margin-top: 18px;
+      color: #168a42;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .archive:hover {
+      text-decoration: underline;
+    }
+
+    .disclaimer {
+      margin-top: 26px;
+      padding: 17px 20px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: #666;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .disclaimer strong {
+      color: #333;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 28px;
+      color: #999;
+      font-size: 12px;
+    }
+
+    @media (max-width: 850px) {
+      body {
+        padding: 25px 16px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      iframe {
+        height: 480px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .link-row {
+        flex-direction: column;
+      }
+
+      .copy {
+        width: 100%;
+      }
+
+      .panel {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <header class="top">
+    <div class="brand">
+      <span class="brand-icon"></span>
+      FOR SALE GENERATOR
+    </div>
+
+    <h1>Make your own for sale page.</h1>
+
+    <p class="subtitle">
+      Customize a GoDaddy-style domain for sale page and generate
+      a shareable link instantly.
+    </p>
+  </header>
+
+  <main class="layout">
+
+    <section class="panel">
+      <h2>Customize your page</h2>
+
+      <p class="panel-description">
+        Enter your own domain name and description below.
+      </p>
+
+      <label for="domain">Domain / Title</label>
+      <input
+        id="domain"
+        type="text"
+        value="google.com"
+        placeholder="google.com"
+      >
+
+      <label for="description">Description</label>
+      <input
+        id="description"
+        type="text"
+        value="may be for sale."
+        placeholder="Enter a description..."
+      >
+
+      <button class="generate" onclick="generate()">
+        Generate page →
+      </button>
+
+      <label for="generatedLink">Your generated link</label>
+
+      <div class="link-row">
+        <input
+          id="generatedLink"
+          type="text"
+          readonly
+          placeholder="Generate your page first..."
+        >
+
+        <button class="copy" onclick="copyLink()">
+          Copy link
+        </button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="preview-heading">
+        <h2>Live preview</h2>
+
+        <span class="live">
+          <span class="live-dot"></span>
+          LIVE
+        </span>
+      </div>
+
+      <div class="iframe-container">
+        <iframe
+          id="preview"
+          title="For sale page preview"
+        ></iframe>
+      </div>
+
+      <a
+        class="archive"
+        href="https://web.archive.org/web/20250801002053/https://www.godaddy.com/forsale/godaddy.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View original Internet Archive capture ↗
+      </a>
+    </section>
+
+  </main>
+
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong>
+    This is an unofficial fan-made project and is not affiliated
+    with, endorsed by, or sponsored by GoDaddy or any other company.
+    GoDaddy is a trademark of its respective owner.
+  </div>
+
+  <footer>
+    For Sale Page Generator
+  </footer>
+
+</div>
+
+<script>
+  const baseURL =
+    "https://noahscratch493.github.io/for-sale/godaddy.com.html";
+
+  function generate() {
+    const domain =
+      document.getElementById("domain").value;
+
+    const description =
+      document.getElementById("description").value;
+
+    const url = new URL(baseURL);
+
+    url.searchParams.set("domain", domain);
+    url.searchParams.set("desc", description);
+
+    const generatedURL = url.toString();
+
+    document.getElementById("generatedLink").value =
+      generatedURL;
+
+    document.getElementById("preview").src =
+      generatedURL;
+  }
+
+  async function copyLink() {
+    const link =
+      document.getElementById("generatedLink").value;
+
+    if (!link) {
+      alert("Generate a page first!");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(link);
+
+      const button = document.querySelector(".copy");
+      button.textContent = "Copied! ✓";
+
+      setTimeout(() => {
+        button.textContent = "Copy link";
+      }, 2000);
+
+    } catch (error) {
+      const input = document.getElementById("generatedLink");
+      input.select();
+      document.execCommand("copy");
+    }
+  }
+
+  generate();
+</script>
+
+</body>
+</html>
