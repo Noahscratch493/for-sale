@@ -35,4 +35,37 @@
       }
     });
   }
+
+  // Disable all existing links.
+  document.querySelectorAll("a").forEach(link => {
+    link.removeAttribute("href");
+    link.removeAttribute("target");
+    link.style.pointerEvents = "none";
+    link.style.cursor = "default";
+  });
+
+  // Prevent clicks on links, including dynamically added ones.
+  document.addEventListener("click", event => {
+    const link = event.target.closest("a");
+
+    if (link) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }, true);
+
+  // Disable links added dynamically in the future.
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll("a[href]").forEach(link => {
+      link.removeAttribute("href");
+      link.removeAttribute("target");
+      link.style.pointerEvents = "none";
+      link.style.cursor = "default";
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
 })();
