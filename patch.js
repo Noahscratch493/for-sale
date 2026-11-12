@@ -1,6 +1,9 @@
 (() => {
   const params = new URLSearchParams(window.location.search);
 
+  const allowedArchiveUrl = "https://web.archive.org/web/20250730003241/https://www.trustpilot.com/review/godaddy.com";
+  const originalTrustpilotUrl = "https://www.trustpilot.com/review/godaddy.com";
+
   // Update domain and description.
   const domain = params.get("domain");
   const desc = params.get("desc");
@@ -36,52 +39,48 @@
     });
   }
 
-  // Configure links.
+  // Configure all links.
   function configureLinks() {
     document.querySelectorAll("a").forEach(link => {
-      const url = link.href;
+      const href = link.getAttribute("href");
 
-      // Allow only the Trustpilot link, redirecting it through Internet Archive.
-      if (
-        url &&
-        (url.includes("trustpilot.com") ||
-         link.textContent.toLowerCase().includes("trustpilot"))
-      ) {
-        if (!link.dataset.archiveLink) {
-          link.href = "https://web.archive.org/web/" + url;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          link.style.pointerEvents = "auto";
-          link.style.cursor = "pointer";
-          link.dataset.archiveLink = "true";
-        }
+      if (href === allowedArchiveUrl) {
+        link.href = originalTrustpilotUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.style.pointerEvents = "auto";
+        link.style.cursor = "pointer";
+        link.dataset.allowedLink = "true";
       } else {
-        // Disable all other links.
         link.removeAttribute("href");
         link.removeAttribute("target");
+        link.removeAttribute("onclick");
         link.style.pointerEvents = "none";
         link.style.cursor = "default";
+        delete link.dataset.allowedLink;
       }
     });
   }
 
   configureLinks();
 
-  // Prevent clicks on all links except the Trustpilot Internet Archive link.
+  // Block every link click except the allowed Trustpilot link.
   document.addEventListener("click", event => {
     const link = event.target.closest("a");
 
-    if (link && !link.dataset.archiveLink) {
+    if (link && !link.dataset.allowedLink) {
       event.preventDefault();
-      event.stopPropagation();
+      event.stopImmediatePropagation();
     }
   }, true);
 
-  // Handle dynamically added links.
+  // Handle dynamically added or modified links.
   const observer = new MutationObserver(configureLinks);
 
   observer.observe(document.documentElement, {
     childList: true,
-    subtree: true
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["href"]
   });
 })();
