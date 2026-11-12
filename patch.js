@@ -10,6 +10,19 @@
 
   if (domain && domainElement) {
     domainElement.textContent = domain;
+
+    // Automatically wrap and hyphenate long words.
+    domainElement.style.overflowWrap = "normal";
+    domainElement.style.wordBreak = "normal";
+    domainElement.style.hyphens = "auto";
+
+    // Preserve normal word wrapping.
+    domainElement.style.whiteSpace = "normal";
+
+    // Enable browser hyphenation.
+    if (!domainElement.hasAttribute("lang")) {
+      domainElement.setAttribute("lang", "en");
+    }
   }
 
   if (desc && headerElement) {
